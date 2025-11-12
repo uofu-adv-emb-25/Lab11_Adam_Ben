@@ -16,11 +16,11 @@ else()
 endif()
 
 if(DEFINED ENV{FREERTOS_PATH})
-    set(FREERTOS_KERNEL_PATH $ENV{FREERTOSL_PATH})
+    set(FREERTOS_KERNEL_PATH $ENV{FREERTOS_PATH})
 else()
     set(FREERTOS_KERNEL_PATH lib/freertos)
 endif()
-message("FreeRTOS path: ${FREERTOSL_PATH}")
+message("FreeRTOS path: ${FREERTOS_PATH}")
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # ====================================================================================
