@@ -15,12 +15,12 @@ else()
     set(PICO_SDK_PATH lib/pico-sdk)
 endif()
 
-if(DEFINED ENV{FREERTOS_KERNEL_PATH})
-    set(FREERTOS_KERNEL_PATH $ENV{FREERTOS_KERNEL_PATH})
+if(DEFINED ENV{FREERTOS_PATH})
+    set(FREERTOS_KERNEL_PATH $ENV{FREERTOSL_PATH})
 else()
     set(FREERTOS_KERNEL_PATH lib/freertos)
 endif()
-message("FreeRTOS path: ${FREERTOS_KERNEL_PATH}")
+message("FreeRTOS path: ${FREERTOSL_PATH}")
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # ====================================================================================
