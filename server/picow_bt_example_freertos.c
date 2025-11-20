@@ -12,6 +12,7 @@
 #include "btstack_event.h"
 #include "pico/cyw43_arch.h"
 #include "picow_bt_example_common.h"
+#include "temp_sense.h"
 
 #ifndef RUN_FREERTOS_ON_CORE
 #define RUN_FREERTOS_ON_CORE 0
@@ -50,6 +51,8 @@ void main_task(__unused void *params)
     if (cyw43_arch_init()) {
         printf("failed to initialise cyw43_arch\n");
     } else {
+
+        temperature_setup();
         // inform about BTstack state
         hci_event_callback_registration.callback = &packet_handler;
         hci_add_event_handler(&hci_event_callback_registration);

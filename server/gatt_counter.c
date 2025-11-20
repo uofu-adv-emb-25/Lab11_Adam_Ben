@@ -55,6 +55,7 @@
 #include "gatt_counter.h"
 #include "btstack.h"
 #include "ble/gatt-service/battery_service_server.h"
+#include "temp_sense.h"
 
 #define HEARTBEAT_PERIOD_MS 1000
 
@@ -79,6 +80,7 @@ static uint8_t battery = 100;
 
 static void packet_handler (uint8_t packet_type, uint16_t channel, uint8_t *packet, uint16_t size);
 static uint16_t att_read_callback(hci_con_handle_t con_handle, uint16_t att_handle, uint16_t offset, uint8_t * buffer, uint16_t buffer_size);
+
 static int att_write_callback(hci_con_handle_t con_handle, uint16_t att_handle, uint16_t transaction_mode, uint16_t offset, uint8_t *buffer, uint16_t buffer_size);
 static void  heartbeat_handler(struct btstack_timer_source *ts);
 static void beat(void);
@@ -217,10 +219,15 @@ static void packet_handler (uint8_t packet_type, uint16_t channel, uint8_t *pack
 // @param offset defines start of attribute value
 static uint16_t att_read_callback(hci_con_handle_t connection_handle, uint16_t att_handle, uint16_t offset, uint8_t * buffer, uint16_t buffer_size){
     UNUSED(connection_handle);
-
     if (att_handle == ATT_CHARACTERISTIC_0000FF11_0000_1000_8000_00805F9B34FB_01_VALUE_HANDLE){
         return att_read_callback_handle_blob((const uint8_t *)counter_string, counter_string_len, offset, buffer, buffer_size);
     }
+    else if (att_handle == ATT_CHARACTERISTIC_ORG_BLUETOOTH_CHARACTERISTIC_TEMPERATURE_01_VALUE_HANDLE)
+    {
+        float temp = temperature_poll();
+        return att_read_callback_handle_blob((uint8_t *) &temp, 4, offset, buffer, buffer_size);
+    }
+    printf("%d\n", att_handle);
     return 0;
 }
 /* LISTING_END */
